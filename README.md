@@ -63,3 +63,15 @@ jobs:
 }
 
 ```
+
+- Setup your `.textlintrc`
+
+```json
+{
+  "rules": {
+    "en-spell": true,
+    "ginger": false
+  },
+  "plugins": ["latex2e"]
+}
+```
