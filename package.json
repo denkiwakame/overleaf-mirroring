@@ -1,0 +1,14 @@
+{
+  "name": "mirror-overleaf",
+  "version": "0.0.0",
+  "description": "",
+  "dependencies": {
+    "textlint": "^11.7.6",
+    "textlint-plugin-latex2e": "^1.0.0",
+    "textlint-rule-en-spell": "^1.0.5",
+    "textlint-rule-ginger": "^2.2.1"
+  },
+  "devDependencies": {},
+  "author": "denkiwakame <denkivvakame@gmail.com>",
+  "license": "MIT"
+}

@@ -1,0 +1,42 @@
+name: mirror-overleaf
+
+on:
+  push:
+    branches:
+      - master
+  schedule:
+    - cron: "0 0 * * *" # min(0-59) time(0-23) date(1-31) month(1-12) day(0-6)
+jobs:
+  pull:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          fetch-depth: 0 # checkout@v2 fetch --depth=1 by default
+      - name: mirror-overleaf
+        env:
+          OVERLEAF_REPOSITORY: https://git.overleaf.com/5f2978e877b49700013a44b7
+        shell: bash
+        run: |
+          REPO=${OVERLEAF_REPOSITORY#https://}
+          UNAME=${{secrets.OVERLEAF_USERNAME}}
+          UNAME_ESCAPED=${UNAME/@/%40}
+          PW=${{secrets.OVERLEAF_PASSWORD}}
+          REF="https://${UNAME_ESCAPED}:${PW}@${REPO}"
+          git config user.name github-actions
+          git config user.email github-actions@github.com
+          git remote add overleaf $REF
+          git fetch $REF
+          git merge FETCH_HEAD
+          git push
+  textlint:
+    needs: pull
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-node@v2-beta
+      - name: setup textlint
+        run: npm install
+      - name: lint
+        run: find . -name "*.tex" | xargs npx textlint -f pretty-error
+

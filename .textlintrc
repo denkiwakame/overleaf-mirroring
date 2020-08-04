@@ -1,0 +1,7 @@
+{
+  "rules": {
+    "en-spell": true,
+    "ginger": false
+  },
+  "plugins": ["latex2e"]
+}
